@@ -1,0 +1,42 @@
+body {
+    font-family: 'Segoe UI', sans-serif;
+}
+
+.card {
+    border-radius: 12px;
+    border: none;
+}
+
+.btn-primary {
+    background-color: #4e73df;
+    border: none;
+}
+
+.btn-primary:hover {
+    background-color: #375abd;
+}
+
+.sidebar {
+    min-height: 100vh;
+    background-color: #4e73df;
+}
+
+.sidebar a {
+    color: white;
+    text-decoration: none;
+    display: block;
+    padding: 12px 20px;
+}
+
+.sidebar a:hover {
+    background-color: #375abd;
+}
+.card {
+    overflow: visible !important;
+    height: auto !important;
+}
+
+body {
+    min-height: 100vh;
+    padding-bottom: 40px;
+}

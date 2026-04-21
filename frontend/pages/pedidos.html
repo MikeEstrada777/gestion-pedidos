@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pedidos</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="../css/estilos.css" rel="stylesheet">
+</head>
+<body>
+
+<div class="d-flex">
+    <div class="sidebar p-3" style="width: 220px;">
+        <h5 class="text-white text-center mb-4">🛒 Pedidos</h5>
+        <a href="dashboard.html">📊 Dashboard</a>
+        <a href="productos.html">📦 Productos</a>
+        <a href="pedidos.html">🧾 Pedidos</a>
+        <hr style="border-color: white;">
+        <a href="#" onclick="cerrarSesion()">🚪 Cerrar sesión</a>
+    </div>
+
+    <div class="flex-grow-1 p-4">
+        <h2>🧾 Pedidos</h2>
+        <p class="text-muted">Gestiona y da seguimiento a los pedidos</p>
+
+        <div class="card shadow mb-4">
+            <div class="card-body">
+                <h5>Crear nuevo pedido</h5>
+                <div class="row g-2 mb-2">
+                    <div class="col-md-4">
+                        <label class="form-label">Dirección de envío</label>
+                        <input type="text" id="direccion" class="form-control"
+                               placeholder="Ej: Calle 10 #5-23, Fusagasugá">
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label">Producto</label>
+                        <select id="producto_sel" class="form-select">
+                            <option value="">Selecciona un producto</option>
+                        </select>
+                    </div>
+                    <div class="col-md-2">
+                        <label class="form-label">Cantidad</label>
+                        <input type="number" id="cantidad" class="form-control"
+                               placeholder="1" min="1">
+                    </div>
+                    <div class="col-md-3 d-flex align-items-end">
+                        <button onclick="agregarAlCarrito()"
+                                class="btn btn-secondary w-100">
+                            + Agregar al carrito
+                        </button>
+                    </div>
+                </div>
+
+                <div id="carrito_container" class="d-none mt-3">
+                    <h6>🛒 Carrito:</h6>
+                    <ul id="lista_carrito" class="list-group mb-2"></ul>
+                    <p>Total: <strong id="total_carrito">$0</strong></p>
+                    <button onclick="crearPedido()" class="btn btn-primary">
+                        Confirmar pedido
+                    </button>
+                </div>
+
+                <div id="alerta_pedido" class="mt-2 d-none"></div>
+            </div>
+        </div>
+
+        <div class="card shadow">
+            <div class="card-body">
+                <h5>Lista de pedidos</h5>
+                <table class="table table-hover mt-3">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>#</th>
+                            <th>Cliente</th>
+                            <th>Total</th>
+                            <th>Estado</th>
+                            <th>Fecha</th>
+                            <th>Cambiar estado</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tabla_pedidos">
+                        <tr>
+                            <td colspan="6" class="text-center">
+                                Cargando pedidos...
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="../js/pedidos.js"></script>
+</body>
+</html>

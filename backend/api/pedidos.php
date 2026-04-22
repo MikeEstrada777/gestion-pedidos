@@ -12,14 +12,86 @@ $accion = $_GET["accion"] ?? "";
 if ($metodo === "POST" && $accion === "crear") {
     $datos = json_decode(file_get_contents("php://input"), true);
 
-    $id_usuario     = $datos["id_usuario"]     ?? 0;
-    $direccion      = $datos["direccion_envio"] ?? "";
-    $productos      = $datos["productos"]       ?? [];
+    $id_usuario = $datos["id_usuario"]     ?? 0;
+    $direccion  = $datos["direccion_envio"] ?? "";
+    $productos  = $datos["productos"]       ?? [];
 
     if (!$id_usuario || empty($productos)) {
         echo json_encode(["error" => "Datos incompletos"]);
         exit;
     }
+
+    // ── Validar stock antes de hacer cualquier cosa ──
+    foreach ($productos as $p) {
+        $id_prod  = $p["id_producto"];
+        $cantidad = $p["cantidad"];
+
+        $sql_stock = "SELECT stock, nombre FROM productos 
+                      WHERE id_producto = ?";
+        $stmt_stock = $conexion->prepare($sql_stock);
+        $stmt_stock->bind_param("i", $id_prod);
+        $stmt_stock->execute();
+        $resultado_stock = $stmt_stock->get_result();
+        $producto_db     = $resultado_stock->fetch_assoc();
+
+        if (!$producto_db) {
+            echo json_encode(["error" => "Producto no encontrado"]);
+            exit;
+        }
+
+        if ($cantidad > $producto_db["stock"]) {
+            echo json_encode([
+                "error" => "Stock insuficiente para '{$producto_db['nombre']}'. 
+                            Solo hay {$producto_db['stock']} disponibles."
+            ]);
+            exit;
+        }
+    }
+
+    // ── Calcular total ──
+    $total = 0;
+    foreach ($productos as $p) {
+        $total += $p["precio_unitario"] * $p["cantidad"];
+    }
+
+    // ── Insertar pedido ──
+    $sql  = "INSERT INTO pedidos (id_usuario, id_estado, total, direccion_envio) 
+             VALUES (?, 1, ?, ?)";
+    $stmt = $conexion->prepare($sql);
+    $stmt->bind_param("ids", $id_usuario, $total, $direccion);
+    $stmt->execute();
+    $id_pedido = $stmt->insert_id;
+
+    // ── Insertar detalle y descontar stock ──
+    foreach ($productos as $p) {
+        $sql2  = "INSERT INTO detalle_pedido 
+                  (id_pedido, id_producto, cantidad, precio_unitario) 
+                  VALUES (?, ?, ?, ?)";
+        $stmt2 = $conexion->prepare($sql2);
+        $stmt2->bind_param("iiid", $id_pedido, $p["id_producto"],
+                                   $p["cantidad"], $p["precio_unitario"]);
+        $stmt2->execute();
+
+        $sql3  = "UPDATE productos SET stock = stock - ? 
+                  WHERE id_producto = ?";
+        $stmt3 = $conexion->prepare($sql3);
+        $stmt3->bind_param("ii", $p["cantidad"], $p["id_producto"]);
+        $stmt3->execute();
+    }
+
+    // ── Registrar en historial ──
+    $sql4  = "INSERT INTO historial_estados 
+              (id_pedido, id_estado, observacion) 
+              VALUES (?, 1, 'Pedido creado')";
+    $stmt4 = $conexion->prepare($sql4);
+    $stmt4->bind_param("i", $id_pedido);
+    $stmt4->execute();
+
+    echo json_encode([
+        "mensaje"   => "Pedido creado correctamente",
+        "id_pedido" => $id_pedido
+    ]);
+}
 
     // Calcular total
     $total = 0;

@@ -55,13 +55,19 @@
 </div>
 
 <script>
-    // Verificar que hay sesión activa
     const usuario = JSON.parse(localStorage.getItem("usuario"));
+
+    // Si no hay sesión, al login
     if (!usuario) {
         window.location.href = "login.html";
-    } else {
-        document.getElementById("nombre_usuario").textContent = usuario.nombre;
     }
+
+    // Si es cliente, no puede entrar al dashboard de admin
+    if (usuario.rol !== "admin") {
+        window.location.href = "tienda.html";
+    }
+
+    document.getElementById("nombre_usuario").textContent = usuario.nombre;
 
     function cerrarSesion() {
         localStorage.removeItem("usuario");

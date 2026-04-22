@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tienda</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="../css/estilos.css" rel="stylesheet">
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar navbar-dark px-4" style="background-color: #4e73df;">
+    <span class="navbar-brand fw-bold">🛒 Gestión de Pedidos</span>
+    <div class="d-flex align-items-center gap-3">
+        <span class="text-white" id="nombre_cliente"></span>
+        <a href="mis_pedidos.html" class="btn btn-outline-light btn-sm">
+            📦 Mis pedidos
+        </a>
+        <button onclick="cerrarSesion()" class="btn btn-danger btn-sm">
+            🚪 Salir
+        </button>
+    </div>
+</nav>
+
+<!-- CONTENIDO -->
+<div class="container mt-4">
+    <h4>Catálogo de productos</h4>
+    <p class="text-muted">Selecciona los productos que deseas pedir</p>
+
+    <!-- CARRITO -->
+    <div id="carrito_container" class="d-none mb-4">
+        <div class="card shadow border-primary">
+            <div class="card-body">
+                <h5>🛒 Tu carrito</h5>
+                <ul id="lista_carrito" class="list-group mb-3"></ul>
+                <div class="row align-items-center">
+                    <div class="col-md-6">
+                        <input type="text" id="direccion" class="form-control"
+                               placeholder="Dirección de envío">
+                    </div>
+                    <div class="col-md-3">
+                        <p class="mb-0">Total: <strong id="total_carrito">$0</strong></p>
+                    </div>
+                    <div class="col-md-3">
+                        <button onclick="crearPedido()" 
+                                class="btn btn-primary w-100">
+                            Confirmar pedido ✅
+                        </button>
+                    </div>
+                </div>
+                <div id="alerta_pedido" class="mt-2 d-none"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- PRODUCTOS -->
+    <div class="row" id="lista_productos"></div>
+</div>
+
+<script src="../js/tienda.js"></script>
+</body>
+</html>

@@ -4,6 +4,11 @@ function login() {
     const correo   = document.getElementById("correo").value;
     const password = document.getElementById("password").value;
 
+    if (!correo || !password) {
+        mostrarAlerta("warning", "Todos los campos son obligatorios");
+        return;
+    }
+
     fetch(`${API}/usuarios.php?accion=login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -15,16 +20,17 @@ function login() {
             mostrarAlerta("danger", data.error);
         } else {
             localStorage.setItem("usuario", JSON.stringify(data.usuario));
-            window.location.href = "dashboard.html";
+
+            // Redirigir según rol
+            if (data.usuario.rol === "admin") {
+                window.location.href = "dashboard.html";
+            } else {
+                window.location.href = "tienda.html";
+            }
         }
     });
 }
 
-function mostrarAlerta(tipo, mensaje) {
-    const alerta = document.getElementById("alerta");
-    alerta.className = `alert alert-${tipo}`;
-    alerta.textContent = mensaje;
-}
 function registrar() {
     const nombre   = document.getElementById("nombre").value;
     const correo   = document.getElementById("correo").value;
@@ -38,7 +44,7 @@ function registrar() {
     fetch(`${API}/usuarios.php?accion=registrar`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ nombre, correo, password })
+        body: JSON.stringify({ nombre, correo, password, rol: "cliente" })
     })
     .then(res => res.json())
     .then(data => {
@@ -51,4 +57,10 @@ function registrar() {
             }, 1500);
         }
     });
+}
+
+function mostrarAlerta(tipo, mensaje) {
+    const alerta = document.getElementById("alerta");
+    alerta.className = `alert alert-${tipo}`;
+    alerta.textContent = mensaje;
 }

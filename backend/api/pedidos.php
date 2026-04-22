@@ -68,7 +68,7 @@ if ($metodo === "POST" && $accion === "crear") {
 
 // ── LISTAR PEDIDOS ─────────────────────────────────
 if ($metodo === "GET" && $accion === "listar") {
-    $sql = "SELECT p.id_pedido, u.nombre AS cliente, 
+    $sql = "SELECT p.id_pedido, p.id_usuario, u.nombre AS cliente, 
                    e.nombre AS estado, p.total, 
                    p.fecha_pedido, p.direccion_envio
             FROM pedidos p

@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mi Perfil</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="../css/estilos.css" rel="stylesheet">
+    <style>
+        .avatar {
+            width: 100px;
+            height: 100px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            color: white;
+            margin: 0 auto 20px;
+            font-weight: 700;
+        }
+
+        .info-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 14px 0;
+            border-bottom: 1px solid #f0f2f5;
+        }
+
+        .info-item:last-child { border-bottom: none; }
+
+        .info-item .icon {
+            width: 40px;
+            height: 40px;
+            background: #f0f2f5;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1rem;
+            flex-shrink: 0;
+        }
+
+        .info-item .label {
+            font-size: 0.78rem;
+            color: #999;
+            margin: 0;
+        }
+
+        .info-item .value {
+            font-size: 0.95rem;
+            font-weight: 500;
+            color: #1a1a2e;
+            margin: 0;
+        }
+
+        .rol-badge {
+            display: inline-block;
+            padding: 4px 14px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: white;
+        }
+    </style>
+</head>
+<body style="background: #f0f2f5;">
+
+<!-- NAVBAR cliente (se muestra solo si es cliente) -->
+<div id="navbar_cliente" class="d-none">
+    <nav class="navbar navbar-dark px-4"
+         style="background: linear-gradient(90deg,#667eea,#764ba2);">
+        <span class="navbar-brand fw-bold">🛒 Gestión de Pedidos</span>
+        <div class="d-flex align-items-center gap-3">
+            <a href="tienda.html" class="btn btn-outline-light btn-sm">
+                🛍️ Tienda
+            </a>
+            <a href="mis_pedidos.html" class="btn btn-outline-light btn-sm">
+                📦 Mis pedidos
+            </a>
+            <button onclick="cerrarSesion()" class="btn btn-danger btn-sm">
+                🚪 Salir
+            </button>
+        </div>
+    </nav>
+</div>
+
+<!-- LAYOUT ADMIN (sidebar + contenido) -->
+<div id="layout_admin" class="d-none">
+    <div class="d-flex">
+        <div class="sidebar p-3" style="width: 220px;">
+            <h5 class="text-white text-center mb-4">🛒 Pedidos</h5>
+            <a href="dashboard.html">📊 Dashboard</a>
+            <a href="productos.html">📦 Productos</a>
+            <a href="pedidos.html">🧾 Pedidos</a>
+            <a href="clientes.html">👥 Clientes</a>
+            <a href="perfil.html">👤 Mi perfil</a>
+            <hr style="border-color: rgba(255,255,255,0.2);">
+            <a href="#" onclick="cerrarSesion()">🚪 Cerrar sesión</a>
+        </div>
+
+        <!-- CONTENIDO ADMIN -->
+        <div class="flex-grow-1 p-4">
+            <h2 class="fw-bold mb-4">👤 Mi Perfil</h2>
+            <div class="row">
+                <div class="col-md-5 mb-4">
+                    <div class="card shadow p-4 text-center">
+                        <div class="avatar" id="avatar_admin">👤</div>
+                        <h4 class="fw-bold" id="nombre_admin">...</h4>
+                        <p id="rol_admin" class="mb-2"></p>
+                        <p class="text-muted small" id="fecha_admin"></p>
+                        <div class="text-start mt-3">
+                            <div class="info-item">
+                                <div class="icon">✉️</div>
+                                <div>
+                                    <p class="label">Correo</p>
+                                    <p class="value" id="correo_admin">...</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-7 mb-4">
+                    <div class="card shadow p-4">
+                        <h5 class="fw-bold mb-4">🔒 Cambiar contraseña</h5>
+                        <div id="alerta_admin" class="d-none"></div>
+                        <div class="mb-3">
+                            <label class="form-label">Contraseña actual</label>
+                            <input type="password" id="old_admin"
+                                   class="form-control" placeholder="••••••••">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Nueva contraseña</label>
+                            <input type="password" id="new_admin"
+                                   class="form-control" placeholder="••••••••">
+                        </div>
+                        <div class="mb-4">
+                            <label class="form-label">Confirmar contraseña</label>
+                            <input type="password" id="confirm_admin"
+                                   class="form-control" placeholder="••••••••">
+                        </div>
+                        <button onclick="cambiarPassword('admin')"
+                                class="btn btn-primary w-100">
+                            Actualizar contraseña
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- CONTENIDO CLIENTE -->
+<div id="layout_cliente" class="d-none container py-5">
+    <h2 class="fw-bold mb-4">👤 Mi Perfil</h2>
+    <div class="row justify-content-center">
+        <div class="col-md-4 mb-4">
+            <div class="card shadow p-4 text-center">
+                <div class="avatar" id="avatar_cliente">👤</div>
+                <h4 class="fw-bold" id="nombre_cliente">...</h4>
+                <p id="rol_cliente" class="mb-2"></p>
+                <p class="text-muted small" id="fecha_cliente"></p>
+                <div class="text-start mt-3">
+                    <div class="info-item">
+                        <div class="icon">✉️</div>
+                        <div>
+                            <p class="label">Correo</p>
+                            <p class="value" id="correo_cliente">...</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-5 mb-4">
+            <div class="card shadow p-4">
+                <h5 class="fw-bold mb-4">🔒 Cambiar contraseña</h5>
+                <div id="alerta_cliente" class="d-none"></div>
+                <div class="mb-3">
+                    <label class="form-label">Contraseña actual</label>
+                    <input type="password" id="old_cliente"
+                           class="form-control" placeholder="••••••••">
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Nueva contraseña</label>
+                    <input type="password" id="new_cliente"
+                           class="form-control" placeholder="••••••••">
+                </div>
+                <div class="mb-4">
+                    <label class="form-label">Confirmar contraseña</label>
+                    <input type="password" id="confirm_cliente"
+                           class="form-control" placeholder="••••••••">
+                </div>
+                <button onclick="cambiarPassword('cliente')"
+                        class="btn btn-primary w-100">
+                    Actualizar contraseña
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+const API = "http://localhost/gestion_pedidos/backend/api";
+const usuario = JSON.parse(localStorage.getItem("usuario"));
+if (!usuario) window.location.href = "login.html";
+
+function cerrarSesion() {
+    localStorage.removeItem("usuario");
+    window.location.href = "login.html";
+}
+
+// Mostrar layout según rol
+if (usuario.rol === "admin") {
+    document.getElementById("layout_admin").classList.remove("d-none");
+} else {
+    document.getElementById("navbar_cliente").classList.remove("d-none");
+    document.getElementById("layout_cliente").classList.remove("d-none");
+}
+
+// Cargar datos
+document.addEventListener("DOMContentLoaded", () => {
+    fetch(`${API}/usuarios.php?accion=perfil&id=${usuario.id_usuario}`)
+    .then(res => res.json())
+    .then(data => {
+        const inicial = data.nombre.charAt(0).toUpperCase();
+        const fecha   = new Date(data.fecha_registro).toLocaleDateString(
+            "es-CO", { year:"numeric", month:"long", day:"numeric" }
+        );
+        const badgeColor = data.rol === "admin"
+            ? "linear-gradient(135deg,#f64f59,#c471ed)"
+            : "linear-gradient(135deg,#667eea,#764ba2)";
+        const badgeTexto = data.rol === "admin"
+            ? "⚡ Administrador" : "👤 Cliente";
+
+        if (usuario.rol === "admin") {
+            document.getElementById("avatar_admin").textContent  = inicial;
+            document.getElementById("nombre_admin").textContent  = data.nombre;
+            document.getElementById("correo_admin").textContent  = data.correo;
+            document.getElementById("fecha_admin").textContent   = 
+                "Miembro desde " + fecha;
+            document.getElementById("rol_admin").innerHTML = `
+                <span class="rol-badge" 
+                      style="background:${badgeColor}">
+                    ${badgeTexto}
+                </span>`;
+        } else {
+            document.getElementById("avatar_cliente").textContent  = inicial;
+            document.getElementById("nombre_cliente").textContent  = data.nombre;
+            document.getElementById("correo_cliente").textContent  = data.correo;
+            document.getElementById("fecha_cliente").textContent   = 
+                "Miembro desde " + fecha;
+            document.getElementById("rol_cliente").innerHTML = `
+                <span class="rol-badge" 
+                      style="background:${badgeColor}">
+                    ${badgeTexto}
+                </span>`;
+        }
+    });
+});
+
+function cambiarPassword(tipo) {
+    const old_pass     = document.getElementById(`old_${tipo}`).value;
+    const new_pass     = document.getElementById(`new_${tipo}`).value;
+    const confirm_pass = document.getElementById(`confirm_${tipo}`).value;
+
+    if (!old_pass || !new_pass || !confirm_pass) {
+        mostrarAlerta(tipo, "warning", "Todos los campos son obligatorios");
+        return;
+    }
+    if (new_pass !== confirm_pass) {
+        mostrarAlerta(tipo, "danger", "Las contraseñas nuevas no coinciden");
+        return;
+    }
+    if (new_pass.length < 6) {
+        mostrarAlerta(tipo, "warning", "Mínimo 6 caracteres");
+        return;
+    }
+
+    fetch(`${API}/usuarios.php?accion=cambiar_password`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+            id_usuario:   usuario.id_usuario,
+            password_old: old_pass,
+            password_new: new_pass
+        })
+    })
+    .then(res => res.json())
+    .then(data => {
+        if (data.error) {
+            mostrarAlerta(tipo, "danger", data.error);
+        } else {
+            mostrarAlerta(tipo, "success", "¡Contraseña actualizada!");
+            document.getElementById(`old_${tipo}`).value     = "";
+            document.getElementById(`new_${tipo}`).value     = "";
+            document.getElementById(`confirm_${tipo}`).value = "";
+        }
+    });
+}
+
+function mostrarAlerta(tipo, clase, mensaje) {
+    const alerta = document.getElementById(`alerta_${tipo}`);
+    alerta.className = `alert alert-${clase}`;
+    alerta.textContent = mensaje;
+    setTimeout(() => alerta.className = "d-none", 3000);
+}
+</script>
+</body>
+</html>

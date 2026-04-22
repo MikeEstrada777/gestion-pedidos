@@ -5,48 +5,219 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link href="../css/estilos.css" rel="stylesheet">
+    <style>
+        .stat-card {
+            border-radius: 16px;
+            padding: 24px;
+            color: white;
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .stat-card::after {
+            content: '';
+            position: absolute;
+            width: 120px;
+            height: 120px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 50%;
+            bottom: -30px;
+            right: -30px;
+        }
+
+        .stat-card .numero {
+            font-size: 2.8rem;
+            font-weight: 700;
+            line-height: 1;
+        }
+
+        .stat-card .label {
+            font-size: 0.85rem;
+            opacity: 0.9;
+            margin-top: 6px;
+        }
+
+        .stat-card .icono {
+            font-size: 2rem;
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            opacity: 0.8;
+        }
+
+        .card-azul    { background: linear-gradient(135deg, #667eea, #764ba2); }
+        .card-naranja { background: linear-gradient(135deg, #f6d365, #fda085); }
+        .card-verde   { background: linear-gradient(135deg, #43e97b, #38f9d7); }
+        .card-rojo    { background: linear-gradient(135deg, #f64f59, #c471ed); }
+
+        .ingreso-card {
+            background: linear-gradient(135deg, #1a1a2e, #16213e);
+            border-radius: 16px;
+            padding: 24px 32px;
+            color: white;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .ingreso-card .monto {
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: #43e97b;
+        }
+
+        .ingreso-card .sublabel {
+            font-size: 0.85rem;
+            color: rgba(255,255,255,0.6);
+        }
+
+        .acceso-card {
+            border-radius: 16px;
+            padding: 28px;
+            text-align: center;
+            background: white;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.07);
+            transition: all 0.3s ease;
+        }
+
+        .acceso-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 30px rgba(102,126,234,0.15);
+        }
+
+        .acceso-card .emoji {
+            font-size: 3rem;
+            margin-bottom: 12px;
+        }
+
+        .acceso-card h5 {
+            font-weight: 600;
+            color: #1a1a2e;
+        }
+
+        .acceso-card p {
+            font-size: 0.85rem;
+            color: #888;
+        }
+    </style>
 </head>
 <body>
 
 <div class="d-flex">
+    <!-- SIDEBAR -->
     <div class="sidebar p-3" style="width: 220px;">
         <h5 class="text-white text-center mb-4">🛒 Pedidos</h5>
         <a href="dashboard.html">📊 Dashboard</a>
         <a href="productos.html">📦 Productos</a>
         <a href="pedidos.html">🧾 Pedidos</a>
         <a href="clientes.html">👥 Clientes</a>
-        <hr style="border-color: white;">
+        <hr style="border-color: rgba(255,255,255,0.2);">
         <a href="#" onclick="cerrarSesion()">🚪 Cerrar sesión</a>
     </div>
 
-    <div class="flex-grow-1 p-4">
-        <h2>Bienvenido, <span id="nombre_usuario"></span> 👋</h2>
-        <p class="text-muted">Panel principal del sistema de gestión de pedidos</p>
+    <!-- CONTENIDO -->
+    <div class="flex-grow-1 p-4" style="background: #f0f2f5;">
 
-        <div class="row mt-4">
+        <!-- ENCABEZADO -->
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <div>
+                <h2 class="fw-700 mb-0">
+                    Bienvenido, <span id="nombre_usuario"></span> 👋
+                </h2>
+                <p class="text-muted mb-0">
+                    Panel de administración — 
+                    <span id="fecha_hoy"></span>
+                </p>
+            </div>
+            <div class="badge py-2 px-3" 
+                 style="background: linear-gradient(135deg,#667eea,#764ba2);
+                        font-size:0.85rem;">
+                🔴 En vivo
+            </div>
+        </div>
+
+        <!-- ESTADÍSTICAS -->
+        <div class="row g-3 mb-4">
+            <div class="col-md-3">
+                <div class="stat-card card-azul shadow">
+                    <span class="icono">🧾</span>
+                    <div class="numero" id="stat_pedidos">...</div>
+                    <div class="label">Total de pedidos</div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="stat-card card-naranja shadow">
+                    <span class="icono">⏳</span>
+                    <div class="numero" id="stat_pendientes">...</div>
+                    <div class="label">Pedidos pendientes</div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="stat-card card-verde shadow">
+                    <span class="icono">👥</span>
+                    <div class="numero" id="stat_clientes">...</div>
+                    <div class="label">Clientes registrados</div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="stat-card card-rojo shadow">
+                    <span class="icono">⚠️</span>
+                    <div class="numero" id="stat_stock">...</div>
+                    <div class="label">Productos poco stock</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- INGRESOS -->
+        <div class="ingreso-card shadow mb-4">
+            <div style="font-size: 2.5rem;">💰</div>
+            <div>
+                <div class="sublabel">Total de ingresos generados</div>
+                <div class="monto" id="stat_ingresos">...</div>
+            </div>
+        </div>
+
+        <!-- ACCESOS RÁPIDOS -->
+        <h6 class="text-muted fw-600 mb-3 text-uppercase" 
+            style="letter-spacing: 1px; font-size: 0.8rem;">
+            Accesos rápidos
+        </h6>
+        <div class="row g-3">
             <div class="col-md-4">
-                <div class="card shadow text-center p-3">
-                    <h1>📦</h1>
+                <div class="acceso-card">
+                    <div class="emoji">📦</div>
                     <h5>Productos</h5>
-                    <p class="text-muted">Gestiona el catálogo</p>
-                    <a href="productos.html" class="btn btn-primary">Ver productos</a>
+                    <p>Gestiona el catálogo</p>
+                    <a href="productos.html" class="btn btn-primary w-100">
+                        Ver productos
+                    </a>
                 </div>
             </div>
             <div class="col-md-4">
-                <div class="card shadow text-center p-3">
-                    <h1>🧾</h1>
+                <div class="acceso-card">
+                    <div class="emoji">🧾</div>
                     <h5>Pedidos</h5>
-                    <p class="text-muted">Gestiona los pedidos</p>
-                    <a href="pedidos.html" class="btn btn-primary">Ver pedidos</a>
+                    <p>Gestiona los pedidos</p>
+                    <a href="pedidos.html" class="btn btn-primary w-100">
+                        Ver pedidos
+                    </a>
                 </div>
             </div>
             <div class="col-md-4">
-                <div class="card shadow text-center p-3">
-                    <h1>👥</h1>
+                <div class="acceso-card">
+                    <div class="emoji">👥</div>
                     <h5>Clientes</h5>
-                    <p class="text-muted">Ver usuarios registrados</p>
-                    <a href="clientes.html" class="btn btn-primary">Ver clientes</a>
+                    <p>Ver usuarios registrados</p>
+                    <a href="clientes.html" class="btn btn-primary w-100">
+                        Ver clientes
+                    </a>
                 </div>
             </div>
         </div>
@@ -54,17 +225,42 @@
 </div>
 
 <script>
-    const usuario = JSON.parse(localStorage.getItem("usuario"));
+const API = "http://localhost/gestion_pedidos/backend/api";
 
-    if (!usuario) window.location.href = "login.html";
-    if (usuario.rol !== "admin") window.location.href = "tienda.html";
+const usuario = JSON.parse(localStorage.getItem("usuario"));
+if (!usuario) window.location.href = "login.html";
+if (usuario.rol !== "admin") window.location.href = "tienda.html";
 
-    document.getElementById("nombre_usuario").textContent = usuario.nombre;
+document.getElementById("nombre_usuario").textContent = usuario.nombre;
 
-    function cerrarSesion() {
-        localStorage.removeItem("usuario");
-        window.location.href = "login.html";
-    }
+// Mostrar fecha actual
+const hoy = new Date();
+document.getElementById("fecha_hoy").textContent = hoy.toLocaleDateString(
+    "es-CO", { weekday:"long", year:"numeric", month:"long", day:"numeric" }
+);
+
+function cerrarSesion() {
+    localStorage.removeItem("usuario");
+    window.location.href = "login.html";
+}
+
+// Cargar estadísticas
+document.addEventListener("DOMContentLoaded", () => {
+    fetch(`${API}/estadisticas.php`)
+    .then(res => res.json())
+    .then(data => {
+        document.getElementById("stat_pedidos").textContent =
+            data.total_pedidos;
+        document.getElementById("stat_pendientes").textContent =
+            data.pendientes;
+        document.getElementById("stat_clientes").textContent =
+            data.clientes;
+        document.getElementById("stat_stock").textContent =
+            data.poco_stock;
+        document.getElementById("stat_ingresos").textContent =
+            "$" + parseFloat(data.ingresos).toLocaleString("es-CO");
+    });
+});
 </script>
 </body>
 </html>

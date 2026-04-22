@@ -9,18 +9,17 @@
 </head>
 <body>
 
-<!-- BARRA LATERAL -->
 <div class="d-flex">
     <div class="sidebar p-3" style="width: 220px;">
         <h5 class="text-white text-center mb-4">🛒 Pedidos</h5>
         <a href="dashboard.html">📊 Dashboard</a>
         <a href="productos.html">📦 Productos</a>
         <a href="pedidos.html">🧾 Pedidos</a>
+        <a href="clientes.html">👥 Clientes</a>
         <hr style="border-color: white;">
         <a href="#" onclick="cerrarSesion()">🚪 Cerrar sesión</a>
     </div>
 
-    <!-- CONTENIDO PRINCIPAL -->
     <div class="flex-grow-1 p-4">
         <h2>Bienvenido, <span id="nombre_usuario"></span> 👋</h2>
         <p class="text-muted">Panel principal del sistema de gestión de pedidos</p>
@@ -47,7 +46,7 @@
                     <h1>👥</h1>
                     <h5>Clientes</h5>
                     <p class="text-muted">Ver usuarios registrados</p>
-                    <a href="#" class="btn btn-primary">Ver clientes</a>
+                    <a href="clientes.html" class="btn btn-primary">Ver clientes</a>
                 </div>
             </div>
         </div>
@@ -57,15 +56,8 @@
 <script>
     const usuario = JSON.parse(localStorage.getItem("usuario"));
 
-    // Si no hay sesión, al login
-    if (!usuario) {
-        window.location.href = "login.html";
-    }
-
-    // Si es cliente, no puede entrar al dashboard de admin
-    if (usuario.rol !== "admin") {
-        window.location.href = "tienda.html";
-    }
+    if (!usuario) window.location.href = "login.html";
+    if (usuario.rol !== "admin") window.location.href = "tienda.html";
 
     document.getElementById("nombre_usuario").textContent = usuario.nombre;
 

@@ -140,4 +140,183 @@ body {
 
 .form-control:focus, .form-select:focus {
     border-color: #667eea !important;
-    box-shadow:
+    box-shadow: 0 0 0 4px rgba(102,126,234,0.15) !important;
+    background: white !important;
+    outline: none !important;
+}
+
+/* ── TABLAS ──────────────────────────────────────── */
+.table {
+    font-size: 0.9rem;
+}
+
+.table thead {
+    font-size: 0.8rem;
+    letter-spacing: 0.5px;
+}
+
+/* ── UTILIDADES ──────────────────────────────────── */
+.fw-700 { font-weight: 700; }
+.fw-600 { font-weight: 600; }
+
+/* ════════════════════════════════════════════════════
+   RESPONSIVE MÓVIL
+   ════════════════════════════════════════════════════ */
+
+/* ── BOTÓN HAMBURGUESA (solo en móvil) ───────────── */
+.btn-hamburguesa {
+    display: none;
+    position: fixed;
+    top: 12px;
+    left: 12px;
+    z-index: 1100;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    border: none;
+    border-radius: 10px;
+    width: 44px;
+    height: 44px;
+    font-size: 1.2rem;
+    color: white;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(102,126,234,0.4);
+    transition: transform 0.2s ease;
+}
+
+.btn-hamburguesa:active {
+    transform: scale(0.95);
+}
+
+/* ── OVERLAY (fondo oscuro al abrir sidebar) ─────── */
+.sidebar-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.5);
+    z-index: 1000;
+    backdrop-filter: blur(2px);
+}
+
+.sidebar-overlay.activo {
+    display: block;
+}
+
+/* ── RESPONSIVE: TABLETS Y MÓVILES (≤ 768px) ─────── */
+@media (max-width: 768px) {
+
+    /* Mostrar botón hamburguesa */
+    .btn-hamburguesa {
+        display: flex !important;
+        align-items: center;
+        justify-content: center;
+    }
+
+    /* Sidebar se oculta y desliza desde la izquierda */
+    .sidebar {
+        position: fixed !important;
+        left: -240px;
+        top: 0;
+        z-index: 1050;
+        width: 220px !important;
+        transition: left 0.3s ease;
+        height: 100vh !important;
+    }
+
+    .sidebar.abierta {
+        left: 0;
+    }
+
+    /* El contenido ocupa todo el ancho */
+    .flex-grow-1 {
+        width: 100% !important;
+        padding: 16px !important;
+        padding-top: 64px !important; /* espacio para el botón hamburguesa */
+    }
+
+    /* Tablas horizontalmente desplazables */
+    .table-responsive-wrapper {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        border-radius: 12px;
+    }
+
+    .table {
+        min-width: 500px;
+        font-size: 0.8rem;
+    }
+
+    /* Stat cards en 2 columnas */
+    .row.g-3 > [class*="col-md-3"] {
+        width: 50% !important;
+        flex: 0 0 50% !important;
+        max-width: 50% !important;
+    }
+
+    /* Accesos rápidos en 1 columna */
+    .row.g-3 > [class*="col-md-4"] {
+        width: 100% !important;
+        flex: 0 0 100% !important;
+        max-width: 100% !important;
+    }
+
+    /* Formularios de productos/pedidos en columna */
+    .row.g-2 > [class*="col-md"] {
+        width: 100% !important;
+        flex: 0 0 100% !important;
+        max-width: 100% !important;
+    }
+
+    /* Navbar de tienda/mis_pedidos */
+    .navbar {
+        padding: 10px 16px !important;
+        flex-wrap: wrap;
+        gap: 8px;
+    }
+
+    .navbar .d-flex {
+        flex-wrap: wrap;
+        gap: 6px !important;
+        width: 100%;
+        justify-content: flex-start;
+    }
+
+    .navbar .btn {
+        font-size: 0.78rem;
+        padding: 5px 10px;
+    }
+
+    /* Ingreso card del dashboard */
+    .ingreso-card {
+        flex-direction: column;
+        text-align: center;
+        gap: 10px !important;
+        padding: 20px !important;
+    }
+
+    /* Títulos más pequeños */
+    h2 { font-size: 1.4rem !important; }
+    h4 { font-size: 1.2rem !important; }
+}
+
+/* ── RESPONSIVE: MÓVILES PEQUEÑOS (≤ 480px) ─────── */
+@media (max-width: 480px) {
+
+    /* Stat cards en 1 columna */
+    .row.g-3 > [class*="col-md-3"] {
+        width: 100% !important;
+        flex: 0 0 100% !important;
+        max-width: 100% !important;
+    }
+
+    .stat-card .numero {
+        font-size: 2rem !important;
+    }
+
+    /* Padding general más compacto */
+    .card-body {
+        padding: 16px !important;
+    }
+
+    .p-4 {
+        padding: 12px !important;
+    }
+}

@@ -14,10 +14,35 @@
             min-height: 100vh;
             display: flex;
             background: #0f0c29;
-            overflow: hidden;
         }
 
-        /* ── LADO IZQUIERDO ── */
+        /* ── ANIMACIONES DE ENTRADA ── */
+        @keyframes slideInLeft {
+            from { opacity: 0; transform: translateX(-40px); }
+            to   { opacity: 1; transform: translateX(0); }
+        }
+
+        @keyframes slideInRight {
+            from { opacity: 0; transform: translateX(40px); }
+            to   { opacity: 1; transform: translateX(0); }
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50%       { transform: translateY(-20px); }
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50%       { transform: translateY(-10px); }
+        }
+
+        /* ── PANEL IZQUIERDO ── */
         .left-panel {
             width: 55%;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f64f59 100%);
@@ -28,46 +53,33 @@
             padding: 60px;
             position: relative;
             overflow: hidden;
+            animation: slideInLeft 0.7s ease forwards;
         }
 
         .left-panel::before {
             content: '';
             position: absolute;
-            width: 400px;
-            height: 400px;
-            background: rgba(255,255,255,0.05);
+            width: 400px; height: 400px;
+            background: rgba(255,255,255,0.06);
             border-radius: 50%;
-            top: -100px;
-            left: -100px;
+            top: -100px; left: -100px;
             animation: float 6s ease-in-out infinite;
         }
 
         .left-panel::after {
             content: '';
             position: absolute;
-            width: 300px;
-            height: 300px;
-            background: rgba(255,255,255,0.05);
+            width: 300px; height: 300px;
+            background: rgba(255,255,255,0.06);
             border-radius: 50%;
-            bottom: -80px;
-            right: -80px;
+            bottom: -80px; right: -80px;
             animation: float 8s ease-in-out infinite reverse;
-        }
-
-        @keyframes float {
-            0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-20px); }
         }
 
         .left-panel .icon-big {
             font-size: 5rem;
             animation: bounce 2s ease-in-out infinite;
             z-index: 1;
-        }
-
-        @keyframes bounce {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-10px); }
         }
 
         .left-panel h1 {
@@ -77,15 +89,17 @@
             text-align: center;
             z-index: 1;
             margin-top: 20px;
+            animation: fadeInUp 0.8s ease 0.2s both;
         }
 
-        .left-panel p {
+        .left-panel .subtitle-left {
             color: rgba(255,255,255,0.8);
             text-align: center;
             font-size: 1rem;
             z-index: 1;
             margin-top: 10px;
             line-height: 1.6;
+            animation: fadeInUp 0.8s ease 0.3s both;
         }
 
         .features {
@@ -99,24 +113,28 @@
             align-items: center;
             gap: 12px;
             color: white;
-            margin-bottom: 16px;
+            margin-bottom: 14px;
             background: rgba(255,255,255,0.1);
             padding: 12px 20px;
             border-radius: 12px;
             backdrop-filter: blur(10px);
+            animation: fadeInUp 0.6s ease both;
         }
 
-        .feature-item span {
-            font-size: 1.3rem;
-        }
+        .feature-item:nth-child(1) { animation-delay: 0.4s; }
+        .feature-item:nth-child(2) { animation-delay: 0.5s; }
+        .feature-item:nth-child(3) { animation-delay: 0.6s; }
+        .feature-item:nth-child(4) { animation-delay: 0.7s; }
+
+        .feature-item span { font-size: 1.2rem; }
 
         .feature-item p {
             margin: 0;
-            font-size: 0.9rem;
+            font-size: 0.88rem;
             color: rgba(255,255,255,0.9);
         }
 
-        /* ── LADO DERECHO ── */
+        /* ── PANEL DERECHO ── */
         .right-panel {
             width: 45%;
             background: #fff;
@@ -124,6 +142,7 @@
             align-items: center;
             justify-content: center;
             padding: 60px 50px;
+            animation: slideInRight 0.7s ease forwards;
         }
 
         .login-box {
@@ -135,13 +154,22 @@
             font-weight: 700;
             color: #1a1a2e;
             font-size: 1.8rem;
+            animation: fadeInUp 0.6s ease 0.2s both;
         }
 
-        .login-box p.subtitle {
+        .login-box .subtitle {
             color: #888;
             font-size: 0.9rem;
-            margin-bottom: 35px;
+            margin-bottom: 32px;
+            animation: fadeInUp 0.6s ease 0.3s both;
         }
+
+        .form-group {
+            animation: fadeInUp 0.6s ease both;
+        }
+
+        .form-group:nth-child(3) { animation-delay: 0.35s; }
+        .form-group:nth-child(4) { animation-delay: 0.45s; }
 
         .form-label {
             font-weight: 500;
@@ -150,19 +178,34 @@
             margin-bottom: 6px;
         }
 
+        .input-group-icon { position: relative; }
+
+        .input-group-icon .icon {
+            position: absolute;
+            right: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #bbb;
+            font-size: 1rem;
+            pointer-events: none;
+        }
+
         .form-control {
             border: 2px solid #eee;
             border-radius: 12px;
-            padding: 12px 16px;
+            padding: 12px 42px 12px 16px;
             font-size: 0.9rem;
+            font-family: 'Poppins', sans-serif;
             transition: all 0.3s ease;
             background: #fafafa;
+            width: 100%;
         }
 
         .form-control:focus {
             border-color: #667eea;
             box-shadow: 0 0 0 4px rgba(102,126,234,0.12);
             background: white;
+            outline: none;
         }
 
         .btn-login {
@@ -173,11 +216,13 @@
             padding: 13px;
             font-size: 1rem;
             font-weight: 600;
+            font-family: 'Poppins', sans-serif;
             width: 100%;
             cursor: pointer;
             transition: all 0.3s ease;
-            margin-top: 10px;
+            margin-top: 8px;
             letter-spacing: 0.5px;
+            animation: fadeInUp 0.6s ease 0.55s both;
         }
 
         .btn-login:hover {
@@ -185,34 +230,40 @@
             box-shadow: 0 8px 25px rgba(102,126,234,0.45);
         }
 
-        .btn-login:active {
-            transform: translateY(0);
+        .btn-login:active { transform: translateY(0); }
+
+        .btn-login:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+            transform: none;
         }
 
         .divider {
             text-align: center;
             color: #bbb;
             font-size: 0.85rem;
-            margin: 20px 0;
+            margin: 22px 0;
             position: relative;
+            animation: fadeInUp 0.6s ease 0.6s both;
         }
 
         .divider::before, .divider::after {
             content: '';
             position: absolute;
             top: 50%;
-            width: 40%;
+            width: 42%;
             height: 1px;
             background: #eee;
         }
 
         .divider::before { left: 0; }
-        .divider::after { right: 0; }
+        .divider::after  { right: 0; }
 
         .register-link {
             text-align: center;
             font-size: 0.9rem;
             color: #888;
+            animation: fadeInUp 0.6s ease 0.65s both;
         }
 
         .register-link a {
@@ -221,9 +272,7 @@
             text-decoration: none;
         }
 
-        .register-link a:hover {
-            text-decoration: underline;
-        }
+        .register-link a:hover { text-decoration: underline; }
 
         .alert {
             border-radius: 12px;
@@ -231,29 +280,59 @@
             font-size: 0.85rem;
             padding: 12px 16px;
             margin-bottom: 20px;
+            animation: fadeInUp 0.3s ease;
         }
 
-        .input-group-icon {
-            position: relative;
+        /* ── RESPONSIVE MÓVIL ── */
+        @media (max-width: 768px) {
+            body {
+                flex-direction: column;
+                overflow-y: auto;
+                background: #fff;
+            }
+
+            .left-panel {
+                width: 100%;
+                padding: 40px 24px 32px;
+                animation: none;
+                border-radius: 0 0 28px 28px;
+            }
+
+            .left-panel .icon-big { font-size: 3.5rem; }
+
+            .left-panel h1 { font-size: 1.6rem; }
+
+            .features { display: none; }
+
+            .right-panel {
+                width: 100%;
+                padding: 36px 24px 48px;
+                animation: none;
+                align-items: flex-start;
+            }
+
+            .login-box {
+                max-width: 100%;
+            }
+
+            .login-box h2 { font-size: 1.5rem; }
         }
 
-        .input-group-icon .icon {
-            position: absolute;
-            right: 14px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: #bbb;
-            font-size: 1rem;
+        @media (max-width: 400px) {
+            .left-panel { padding: 32px 16px 24px; }
+            .right-panel { padding: 28px 16px 40px; }
         }
     </style>
 </head>
 <body>
 
-<!-- LADO IZQUIERDO -->
+<!-- PANEL IZQUIERDO -->
 <div class="left-panel">
     <div class="icon-big">🛒</div>
     <h1>Gestión de Pedidos</h1>
-    <p>Administra tu tienda de comercio<br>electrónico de forma fácil y rápida</p>
+    <p class="subtitle-left">
+        Administra tu tienda de comercio<br>electrónico de forma fácil y rápida
+    </p>
 
     <div class="features">
         <div class="feature-item">
@@ -275,7 +354,7 @@
     </div>
 </div>
 
-<!-- LADO DERECHO -->
+<!-- PANEL DERECHO -->
 <div class="right-panel">
     <div class="login-box">
         <h2>¡Bienvenido! 👋</h2>
@@ -283,20 +362,22 @@
 
         <div id="alerta" class="d-none"></div>
 
-        <div class="mb-3">
+        <div class="mb-3 form-group">
             <label class="form-label">Correo electrónico</label>
             <div class="input-group-icon">
                 <input type="email" id="correo" class="form-control"
-                       placeholder="correo@ejemplo.com">
+                       placeholder="correo@ejemplo.com"
+                       onkeydown="if(event.key==='Enter') login()">
                 <span class="icon">✉️</span>
             </div>
         </div>
 
-        <div class="mb-3">
+        <div class="mb-3 form-group">
             <label class="form-label">Contraseña</label>
             <div class="input-group-icon">
                 <input type="password" id="password" class="form-control"
-                       placeholder="••••••••">
+                       placeholder="••••••••"
+                       onkeydown="if(event.key==='Enter') login()">
                 <span class="icon">🔒</span>
             </div>
         </div>

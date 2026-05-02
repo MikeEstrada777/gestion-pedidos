@@ -9,27 +9,26 @@
 </head>
 <body>
 
-<!-- NAVBAR -->
-<nav class="navbar navbar-dark px-4" style="background-color: #4e73df;">
+<nav class="navbar navbar-dark px-4">
     <span class="navbar-brand fw-bold">🛒 Gestión de Pedidos</span>
     <div class="d-flex align-items-center gap-3">
         <span class="text-white" id="nombre_cliente"></span>
         <a href="mis_pedidos.html" class="btn btn-outline-light btn-sm">
             📦 Mis pedidos
         </a>
+        <a href="perfil.html" class="btn btn-outline-light btn-sm">
+            👤 Mi perfil
+        </a>
         <button onclick="cerrarSesion()" class="btn btn-danger btn-sm">
             🚪 Salir
         </button>
-        <a href="perfil.html" class="btn btn-outline-light btn-sm">👤 Mi perfil</a>
     </div>
 </nav>
 
-<!-- CONTENIDO -->
 <div class="container mt-4">
     <h4>Catálogo de productos</h4>
     <p class="text-muted">Selecciona los productos que deseas pedir</p>
 
-    <!-- CARRITO -->
     <div id="carrito_container" class="d-none mb-4">
         <div class="card shadow border-primary">
             <div class="card-body">
@@ -44,8 +43,7 @@
                         <p class="mb-0">Total: <strong id="total_carrito">$0</strong></p>
                     </div>
                     <div class="col-md-3">
-                        <button onclick="crearPedido()" 
-                                class="btn btn-primary w-100">
+                        <button onclick="crearPedido()" class="btn btn-primary w-100">
                             Confirmar pedido ✅
                         </button>
                     </div>
@@ -55,7 +53,6 @@
         </div>
     </div>
 
-    <!-- PRODUCTOS -->
     <div class="row" id="lista_productos"></div>
 </div>
 

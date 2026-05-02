@@ -9,13 +9,15 @@
 </head>
 <body>
 
-<!-- NAVBAR -->
-<nav class="navbar navbar-dark px-4" style="background-color: #4e73df;">
+<nav class="navbar navbar-dark px-4">
     <span class="navbar-brand fw-bold">🛒 Gestión de Pedidos</span>
     <div class="d-flex align-items-center gap-3">
         <span class="text-white" id="nombre_cliente"></span>
         <a href="tienda.html" class="btn btn-outline-light btn-sm">
             🛍️ Seguir comprando
+        </a>
+        <a href="perfil.html" class="btn btn-outline-light btn-sm">
+            👤 Mi perfil
         </a>
         <button onclick="cerrarSesion()" class="btn btn-danger btn-sm">
             🚪 Salir
@@ -27,26 +29,26 @@
     <h4>📦 Mis Pedidos</h4>
     <p class="text-muted">Aquí puedes ver el estado de todos tus pedidos</p>
 
-<div class="card shadow">
+    <div class="card shadow">
         <div class="card-body">
-            <div class="table-responsive-wrapper"><table class="table table-hover mt-2">
-                <thead class="table-dark">
-                    <tr>
-                        <th>#</th>
-                        <th>Fecha</th>
-                        <th>Total</th>
-                        <th>Dirección</th>
-                        <th>Estado</th>
-                    </tr>
-                </thead>
-                <tbody id="tabla_mis_pedidos">
-                    <tr>
-                        <td colspan="5" class="text-center">
-                            Cargando pedidos...
-                        </td>
-                    </tr>
-                </tbody>
-            </table></div>
+            <div class="table-responsive-wrapper">
+                <table class="table table-hover mt-2">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>#</th>
+                            <th>Fecha</th>
+                            <th>Total</th>
+                            <th>Dirección</th>
+                            <th>Estado</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tabla_mis_pedidos">
+                        <tr>
+                            <td colspan="5" class="text-center">Cargando pedidos...</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 </div>

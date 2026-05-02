@@ -9,20 +9,19 @@
 </head>
 <body>
 
-<!-- HAMBURGUESA MÓVIL -->
 <button class="btn-hamburguesa d-md-none" onclick="toggleSidebar()">☰</button>
 <div class="sidebar-overlay" onclick="toggleSidebar()"></div>
 
 <div class="d-flex">
     <div class="sidebar p-3" style="width: 220px;">
         <h5 class="text-white text-center mb-4">🛒 Pedidos</h5>
-        <a href="dashboard.html">📊 Dashboard</a>
-        <a href="productos.html"> Productos</a>
-        <a href="pedidos.html"> Pedidos</a>
-        <a href="clientes.html"> clientes</a>
-        <hr style="border-color: white;">
-        <a href="#" onclick="cerrarSesion()">🚪 Cerrar sesión</a>
+        <a href="dashboard.html">Dashboard</a>
+        <a href="productos.html">Productos</a>
+        <a href="pedidos.html">Pedidos</a>
+        <a href="clientes.html">Clientes</a>
+        <hr style="border-color: rgba(255,255,255,0.2);">
         <a href="perfil.html">👤 Mi perfil</a>
+        <a href="#" onclick="cerrarSesion()">🚪 Cerrar sesión</a>
     </div>
 
     <div class="flex-grow-1 p-4">
@@ -32,10 +31,7 @@
         <div class="card shadow mb-4">
             <div class="card-body">
                 <h5>Crear nuevo pedido</h5>
-
-                <!-- Alerta de feedback -->
                 <div id="alerta_pedido" class="d-none mb-3"></div>
-
                 <div class="row g-2 mb-2">
                     <div class="col-md-4">
                         <label class="form-label">Dirección de envío</label>
@@ -54,13 +50,11 @@
                                placeholder="1" min="1">
                     </div>
                     <div class="col-md-3 d-flex align-items-end">
-                        <button onclick="agregarAlCarrito()"
-                                class="btn btn-secondary w-100">
+                        <button onclick="agregarAlCarrito()" class="btn btn-secondary w-100">
                             + Agregar al carrito
                         </button>
                     </div>
                 </div>
-
                 <div id="carrito_container" class="d-none mt-3">
                     <h6>🛒 Carrito:</h6>
                     <ul id="lista_carrito" class="list-group mb-2"></ul>
@@ -89,9 +83,7 @@
                         </thead>
                         <tbody id="tabla_pedidos">
                             <tr>
-                                <td colspan="6" class="text-center">
-                                    Cargando pedidos...
-                                </td>
+                                <td colspan="6" class="text-center">Cargando pedidos...</td>
                             </tr>
                         </tbody>
                     </table>
@@ -101,6 +93,7 @@
     </div>
 </div>
 
+<script src="../js/toasts.js"></script>
 <script src="../js/pedidos.js"></script>
 <script>
 function toggleSidebar() {

@@ -15,6 +15,10 @@ function cerrarSesion() {
 
 document.addEventListener("DOMContentLoaded", cargarProductos);
 
+function formatCOP(valor) {
+    return "$" + parseFloat(valor).toLocaleString("es-CO");
+}
+
 function cargarProductos() {
     fetch(`${API}/productos.php?accion=listar`)
     .then(res => res.json())
@@ -31,9 +35,7 @@ function cargarProductos() {
                         <h1>📦</h1>
                         <h5>${p.nombre}</h5>
                         <p class="text-muted">${p.descripcion}</p>
-                        <p class="fw-bold text-primary">
-                            $${parseFloat(p.precio).toLocaleString()}
-                        </p>
+                        <p class="fw-bold text-primary">${formatCOP(p.precio)}</p>
                         <p class="text-muted small">Stock: ${p.stock}</p>
                         <button onclick="agregarAlCarrito(
                                     '${p.id_producto}',
@@ -73,15 +75,14 @@ function actualizarCarrito() {
         <li class="list-group-item d-flex justify-content-between">
             <span>${i.nombre} x${i.cantidad}</span>
             <span>
-                $${(i.precio_unitario * i.cantidad).toLocaleString()}
+                ${formatCOP(i.precio_unitario * i.cantidad)}
                 <button onclick="quitarDelCarrito(${idx})"
                         class="btn btn-sm btn-danger ms-2">✕</button>
             </span>
         </li>
     `).join("");
 
-    document.getElementById("total_carrito").textContent =
-        "$" + total.toLocaleString();
+    document.getElementById("total_carrito").textContent = formatCOP(total);
     document.getElementById("carrito_container").className =
         carrito.length > 0 ? "mb-4" : "d-none";
 }

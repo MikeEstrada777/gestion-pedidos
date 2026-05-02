@@ -11,13 +11,16 @@ function cerrarSesion() {
     window.location.href = "login.html";
 }
 
+function formatCOP(valor) {
+    return "$" + parseFloat(valor).toLocaleString("es-CO");
+}
+
 document.addEventListener("DOMContentLoaded", cargarMisPedidos);
 
 function cargarMisPedidos() {
     fetch(`${API}/pedidos.php?accion=listar`)
     .then(res => res.json())
     .then(pedidos => {
-        // Filtrar solo los pedidos del cliente actual
         const misPedidos = pedidos.filter(
             p => p.id_usuario == usuario.id_usuario
         );
@@ -28,7 +31,7 @@ function cargarMisPedidos() {
             tabla.innerHTML = `
                 <tr>
                     <td colspan="5" class="text-center text-muted">
-                        Aún no tienes pedidos. 
+                        Aún no tienes pedidos.
                         <a href="tienda.html">¡Haz tu primer pedido!</a>
                     </td>
                 </tr>`;
@@ -38,8 +41,8 @@ function cargarMisPedidos() {
         tabla.innerHTML = misPedidos.map(p => `
             <tr>
                 <td>${p.id_pedido}</td>
-                <td>${new Date(p.fecha_pedido).toLocaleDateString()}</td>
-                <td>$${parseFloat(p.total).toLocaleString()}</td>
+                <td>${new Date(p.fecha_pedido).toLocaleDateString("es-CO")}</td>
+                <td>${formatCOP(p.total)}</td>
                 <td>${p.direccion_envio}</td>
                 <td>
                     <span class="badge ${badgeEstado(p.estado)}">

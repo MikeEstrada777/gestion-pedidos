@@ -1,6 +1,5 @@
 const API = "http://localhost/gestion_pedidos/backend/api";
 
-// Verificar sesión
 const usuario = JSON.parse(localStorage.getItem("usuario"));
 if (!usuario) window.location.href = "login.html";
 
@@ -9,7 +8,10 @@ function cerrarSesion() {
     window.location.href = "login.html";
 }
 
-// Cargar productos al abrir la página
+function formatCOP(valor) {
+    return "$" + parseFloat(valor).toLocaleString("es-CO");
+}
+
 document.addEventListener("DOMContentLoaded", cargarProductos);
 
 function cargarProductos() {
@@ -28,10 +30,10 @@ function cargarProductos() {
                 <td>${p.id_producto}</td>
                 <td>${p.nombre}</td>
                 <td>${p.descripcion}</td>
-                <td>$${parseFloat(p.precio).toLocaleString()}</td>
+                <td>${formatCOP(p.precio)}</td>
                 <td>${p.stock}</td>
                 <td>
-                    <button onclick="eliminarProducto(${p.id_producto})" 
+                    <button onclick="eliminarProducto(${p.id_producto})"
                             class="btn btn-danger btn-sm">
                         Eliminar
                     </button>

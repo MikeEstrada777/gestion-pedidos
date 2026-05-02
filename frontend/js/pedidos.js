@@ -11,6 +11,10 @@ function cerrarSesion() {
     window.location.href = "login.html";
 }
 
+function formatCOP(valor) {
+    return "$" + parseFloat(valor).toLocaleString("es-CO");
+}
+
 document.addEventListener("DOMContentLoaded", () => {
     cargarProductosSelect();
     cargarPedidos();
@@ -24,10 +28,10 @@ function cargarProductosSelect() {
         const select = document.getElementById("producto_sel");
         productos.forEach(p => {
             select.innerHTML += `
-                <option value="${p.id_producto}" 
-                        data-precio="${p.precio}" 
+                <option value="${p.id_producto}"
+                        data-precio="${p.precio}"
                         data-nombre="${p.nombre}">
-                    ${p.nombre} - $${parseFloat(p.precio).toLocaleString()}
+                    ${p.nombre} - ${formatCOP(p.precio)}
                 </option>`;
         });
     });
@@ -63,16 +67,15 @@ function actualizarCarrito() {
         <li class="list-group-item d-flex justify-content-between">
             <span>${i.nombre} x${i.cantidad}</span>
             <span>
-                $${(i.precio_unitario * i.cantidad).toLocaleString()}
-                <button onclick="quitarDelCarrito(${idx})" 
+                ${formatCOP(i.precio_unitario * i.cantidad)}
+                <button onclick="quitarDelCarrito(${idx})"
                         class="btn btn-sm btn-danger ms-2">✕</button>
             </span>
         </li>
     `).join("");
 
-    document.getElementById("total_carrito").textContent = 
-        "$" + total.toLocaleString();
-    document.getElementById("carrito_container").className = 
+    document.getElementById("total_carrito").textContent = formatCOP(total);
+    document.getElementById("carrito_container").className =
         carrito.length > 0 ? "mt-3" : "d-none";
 }
 
@@ -131,13 +134,13 @@ function cargarPedidos() {
             <tr>
                 <td>${p.id_pedido}</td>
                 <td>${p.cliente}</td>
-                <td>$${parseFloat(p.total).toLocaleString()}</td>
+                <td>${formatCOP(p.total)}</td>
                 <td>
                     <span class="badge ${badgeEstado(p.estado)}">
                         ${p.estado}
                     </span>
                 </td>
-                <td>${new Date(p.fecha_pedido).toLocaleDateString()}</td>
+                <td>${new Date(p.fecha_pedido).toLocaleDateString("es-CO")}</td>
                 <td>
                     <select onchange="cambiarEstado(${p.id_pedido}, this.value)"
                             class="form-select form-select-sm">

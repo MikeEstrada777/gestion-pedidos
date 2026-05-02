@@ -17,6 +17,7 @@
             overflow: hidden;
         }
 
+        /* ── LADO IZQUIERDO ── */
         .left-panel {
             width: 55%;
             background: linear-gradient(135deg, #f64f59 0%, #c471ed 50%, #12c2e9 100%);
@@ -124,6 +125,7 @@
             text-align: left;
         }
 
+        /* ── LADO DERECHO ── */
         .right-panel {
             width: 45%;
             background: #fff;
@@ -170,9 +172,10 @@
             border-color: #c471ed;
             box-shadow: 0 0 0 4px rgba(196,113,237,0.12);
             background: white;
+            outline: none;
         }
 
-        .btn-register {
+        .btn-login {
             background: linear-gradient(135deg, #f64f59, #c471ed);
             color: white;
             border: none;
@@ -187,9 +190,19 @@
             letter-spacing: 0.5px;
         }
 
-        .btn-register:hover {
+        .btn-login:hover {
             transform: translateY(-2px);
             box-shadow: 0 8px 25px rgba(196,113,237,0.45);
+        }
+
+        .btn-login:active {
+            transform: translateY(0);
+        }
+
+        .btn-login:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+            transform: none;
         }
 
         .divider {
@@ -210,7 +223,7 @@
         }
 
         .divider::before { left: 0; }
-        .divider::after { right: 0; }
+        .divider::after  { right: 0; }
 
         .login-link {
             text-align: center;
@@ -244,6 +257,16 @@
             top: 50%;
             transform: translateY(-50%);
             color: #bbb;
+            font-size: 1rem;
+            pointer-events: none;
+        }
+
+        /* ── RESPONSIVE ── */
+        @media (max-width: 768px) {
+            body { flex-direction: column; overflow: auto; }
+            .left-panel { width: 100%; padding: 40px 30px; min-height: auto; }
+            .left-panel .steps { display: none; }
+            .right-panel { width: 100%; padding: 40px 24px; }
         }
     </style>
 </head>
@@ -279,4 +302,50 @@
 <div class="right-panel">
     <div class="register-box">
         <h2>Regístrate 📝</h2>
-        <p class="subtitle">C
+        <p class="subtitle">Completa los datos para crear tu cuenta</p>
+
+        <div id="alerta" class="d-none"></div>
+
+        <div class="mb-3">
+            <label class="form-label">Nombre completo</label>
+            <div class="input-group-icon">
+                <input type="text" id="nombre" class="form-control"
+                       placeholder="Tu nombre">
+                <span class="icon">👤</span>
+            </div>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Correo electrónico</label>
+            <div class="input-group-icon">
+                <input type="email" id="correo" class="form-control"
+                       placeholder="correo@ejemplo.com">
+                <span class="icon">✉️</span>
+            </div>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Contraseña</label>
+            <div class="input-group-icon">
+                <input type="password" id="password" class="form-control"
+                       placeholder="Mínimo 6 caracteres">
+                <span class="icon">🔒</span>
+            </div>
+        </div>
+
+        <button onclick="registrar()" class="btn-login">
+            Crear cuenta →
+        </button>
+
+        <div class="divider">o</div>
+
+        <div class="login-link">
+            ¿Ya tienes cuenta?
+            <a href="login.html">Iniciar sesión</a>
+        </div>
+    </div>
+</div>
+
+<script src="../js/auth.js"></script>
+</body>
+</html>
